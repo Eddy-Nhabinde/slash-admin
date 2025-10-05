@@ -14,10 +14,9 @@ import { Switch } from "@/ui/switch";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/ui/tooltip";
 import { Text } from "@/ui/typography";
 import { cn } from "@/utils";
-import { type CSSProperties, useCallback, useEffect, useState } from "react";
+import { type CSSProperties } from "react";
 
 import { useTranslation } from "react-i18next";
-import screenfull from "screenfull";
 import { type ThemeColorPresets, ThemeLayout, ThemeMode } from "#/enum";
 
 export default function SettingButton() {
@@ -41,38 +40,6 @@ export default function SettingButton() {
 		backgroundSize: "50%, 50%",
 	};
 
-	const [isFullscreen, setIsFullscreen] = useState(screenfull.isFullscreen);
-	const toggleFullScreen = () => {
-		if (screenfull.isEnabled) {
-			screenfull.toggle();
-		}
-	};
-	const handleKeyDown = useCallback((event: KeyboardEvent) => {
-		if (event.key === "Escape" && screenfull.isEnabled && screenfull.isFullscreen) {
-			setIsFullscreen(false);
-		}
-	}, []);
-
-	useEffect(() => {
-		const onFullscreenChange = () => {
-			if (screenfull.isEnabled) {
-				setIsFullscreen(screenfull.isFullscreen);
-			}
-		};
-
-		if (screenfull.isEnabled) {
-			screenfull.on("change", onFullscreenChange);
-		}
-
-		window.addEventListener("keydown", handleKeyDown);
-
-		return () => {
-			if (screenfull.isEnabled) {
-				screenfull.off("change", onFullscreenChange);
-			}
-			window.removeEventListener("keydown", handleKeyDown);
-		};
-	}, [handleKeyDown]);
 	const layoutBackground = (layout: ThemeLayout) =>
 		themeLayout === layout ? themeVars.colors.palette.primary.light : themeVars.colors.palette.gray[500];
 
@@ -257,33 +224,6 @@ export default function SettingButton() {
 							</div>
 						</div>
 
-						{/* theme presets */}
-						<div className="flex flex-col gap-2">
-							<Text variant="subTitle1">{t("sys.settings.presetThemes")}</Text>
-							<div className="flex flex-wrap gap-1">
-								{Object.entries(presetsColors).map(([preset, color]) => (
-									<div
-										key={preset}
-										className={cn(
-											"relative flex h-13 w-5 cursor-pointer items-center justify-center rounded transition-all duration-300 ease-in-out p-1",
-											themeColorPresets === preset && "w-13",
-										)}
-										style={{ backgroundColor: color.default }}
-										onClick={() => updateSettings({ themeColorPresets: preset as ThemeColorPresets })}
-									>
-										<div
-											className={cn(
-												"w-full h-full flex items-center justify-center hover:bg-white/30 transition-all duration-300 ease-in-out rounded",
-												themeColorPresets === preset && "bg-white/30",
-											)}
-										>
-											{themeColorPresets === preset && <Icon icon="bi:check-all" size={24} color="white" />}
-										</div>
-									</div>
-								))}
-							</div>
-						</div>
-
 						{/* font */}
 						<div className="flex flex-col gap-2">
 							<Text variant="subTitle1">{t("sys.settings.font")}</Text>
@@ -342,30 +282,6 @@ export default function SettingButton() {
 						</div>
 					</div>
 				</ScrollArea>
-				<SheetFooter className="px-6 py-4 border border-t shrink-0">
-					<Button
-						variant="outline"
-						className="w-full border-dashed text-text-primary hover:border-primary hover:text-primary"
-						onClick={toggleFullScreen}
-					>
-						<div
-							className="flex items-center justify-center"
-							aria-label={isFullscreen ? t("sys.settings.exitFullscreen") : t("sys.settings.fullscreen")}
-						>
-							{isFullscreen ? (
-								<>
-									<Icon icon="local:ic-settings-exit-fullscreen" />
-									<span className="ml-2">{t("sys.settings.exitFullscreen")}</span>
-								</>
-							) : (
-								<>
-									<Icon icon="local:ic-settings-fullscreen" />
-									<span className="ml-2">{t("sys.settings.fullscreen")}</span>
-								</>
-							)}
-						</div>
-					</Button>
-				</SheetFooter>
 			</SheetContent>
 		</Sheet>
 	);
