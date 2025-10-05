@@ -13,7 +13,6 @@ import { Progress } from "@/ui/progress";
 import { Text, Title } from "@/ui/typography";
 import { rgbAlpha } from "@/utils/theme";
 import { useState } from "react";
-import BannerCard from "./banner-card";
 
 const quickStats = [
 	{
@@ -115,8 +114,6 @@ export default function Workbench() {
 
 	return (
 		<div className="flex flex-col gap-4 w-full">
-			<BannerCard />
-			{/* 顶部四个统计卡片 */}
 			<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
 				{quickStats.map((stat) => (
 					<Card key={stat.label} className="flex flex-col justify-between h-full">
@@ -163,7 +160,6 @@ export default function Workbench() {
 				))}
 			</div>
 
-			{/* 月度收入+项目进度区块 */}
 			<div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
 				<Card className="lg:col-span-2">
 					<CardContent className="p-6">

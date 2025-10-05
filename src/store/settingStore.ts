@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 
-import { FontFamilyPreset, typographyTokens } from "@/theme/tokens/typography";
+import { FontFamilyPreset } from "@/theme/tokens/typography";
 import { StorageEnum, ThemeColorPresets, ThemeLayout, ThemeMode } from "#/enum";
 
 export type SettingsType = {
@@ -30,16 +30,16 @@ const useSettingStore = create<SettingStore>()(
 	persist(
 		(set) => ({
 			settings: {
-				themeColorPresets: ThemeColorPresets.Default,
+				themeColorPresets: ThemeColorPresets.Cyan,
 				themeMode: ThemeMode.Light,
 				themeLayout: ThemeLayout.Vertical,
-				themeStretch: false,
+				themeStretch: true,
 				breadCrumb: true,
 				accordion: false,
 				multiTab: false,
-				darkSidebar: false,
+				darkSidebar: true,
 				fontFamily: FontFamilyPreset.openSans,
-				fontSize: Number(typographyTokens.fontSize.sm),
+				fontSize: 14,
 				direction: "ltr",
 			},
 			actions: {

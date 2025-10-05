@@ -91,9 +91,6 @@
 		"vite": "^6.2.0",
 		"vite-tsconfig-paths": "^5.1.2"
 	},
-	"engines": {
-		"node": "20.*"
-	},
 	"packageManager": "pnpm@10.8.0",
 	"msw": {
 		"workerDirectory": [
